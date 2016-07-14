@@ -61,7 +61,7 @@ local function kick_by_username(cb_extra, success, result)
 end
 
 local function run(msg, matches)
-       if matches[1] == 'setname' and is_sudo(msg) then
+       if matches[1] == 'تنظیم نام گروه' and is_sudo(msg) then
             local hash = 'name:enabled:'..msg.to.id
             if not redis:get(hash) then
                 if msg.to.type == 'chat' then
@@ -73,7 +73,7 @@ local function run(msg, matches)
             return
         end
 
-if matches[1] == 'newlink' and is_sudo(msg) then
+if matches[1] == 'لینک جدید' and is_sudo(msg) then
         	local receiver = get_receiver(msg)
             local hash = 'link:'..msg.to.id
     		local function cb(extra, success, result)
@@ -81,7 +81,7 @@ if matches[1] == 'newlink' and is_sudo(msg) then
     				redis:set(hash, result)
     			end
 	            if success == 0 then
-	                return send_large_msg(receiver, 'Error*\nNewlink not created\nI am Not Group Creator', ok_cb, true)
+	                return send_large_msg(receiver, 'ارور*\nلینک ساخته نشده \nمن سازنده گروه نیستم', ok_cb, true)
 	            end
     		end
     		if msg.to.type == 'chat' then
@@ -91,61 +91,61 @@ if matches[1] == 'newlink' and is_sudo(msg) then
             end
     		if result then
 	            if msg.to.type == 'chat' then
-	                send_msg('chat#id'..msg.to.id, 'Newlink created', ok_cb, true)
+	                send_msg('chat#id'..msg.to.id, 'لینک جدید ساخته شد', ok_cb, true)
 	            else
-	                send_msg('channel#id'..msg.to.id, 'Newlink created', ok_cb, true)
+	                send_msg('channel#id'..msg.to.id, 'لینک  جدید ساخته شد', ok_cb, true)
 	            end
 	        end
         end
 
-if matches[1] == 'setlink' and is_sudo(msg) then
+if matches[1] == 'تنظیم لینک' and is_sudo(msg) then
             hash = 'link:'..msg.to.id
             redis:set(hash, matches[2])
             if msg.to.type == 'chat' then
-                    send_msg('chat#id'..msg.to.id, 'Link Has Been Setted', ok_cb, true)
+                    send_msg('chat#id'..msg.to.id, 'لینک ثبت  شد', ok_cb, true)
             else
-                    send_msg('channel#id'..msg.to.id, 'Link Has Been Setted', ok_cb, true)
+                    send_msg('channel#id'..msg.to.id, 'لینک ثبت شد', ok_cb, true)
             end
         end
 
-    if matches[1] == 'link' and is_sudo(msg) then
+    if matches[1] == 'لینک' and is_sudo(msg) then
             hash = 'link:'..msg.to.id
             local linktext = redis:get(hash)
             if linktext then
                 if msg.to.type == 'chat' then
-                    send_msg('user#id'..msg.from.id, 'Group Link :'..linktext, ok_cb, true)
+                    send_msg('user#id'..msg.from.id, 'لینک گروه :'..linktext, ok_cb, true)
                 else
-                    send_msg('user#id'..msg.from.id, 'SuperGroup Link :'..linktext, ok_cb, true)
+                    send_msg('user#id'..msg.from.id, 'لینک سوپر گروه :'..linktext, ok_cb, true)
                 end
-                return 'Link was sent in your pv'
+                return 'لینک برای پی وی شما ارسال شد'
             else
                 if msg.to.type == 'chat' then
-                    send_msg('chat#id'..msg.to.id, 'Error*\nSend /newlink first', ok_cb, true)
+                    send_msg('chat#id'..msg.to.id, 'ارور*\nدستور لینک جدید را ارسال کنید', ok_cb, true)
                 else
-                    send_msg('channel#id'..msg.to.id, 'Error*\nSend /newlink first', ok_cb, true)
+                    send_msg('channel#id'..msg.to.id, 'ارور*\nدستور لینک جدید را ارسال کنید', ok_cb, true)
                 end
             end
          end
 
-    if matches[1] == 'tosuper' then
+    if matches[1] == 'تبدیل به سوپر گروه' then
         if msg.to.type == 'chat' then
             if is_sudo(msg) then
                 chat_upgrade('chat#id'..msg.to.id, ok_cb, false)
-                return 'Chat Upgraded To SuperGroup.'
+                return '🔵گروه عادی به سوپر گروه تبدیل شد🔴'
             end
         else
             return 
         end
      end
 
-if matches[1] == 'kick' and is_sudo(msg) then
+if matches[1] == 'حذف کاربر' and is_sudo(msg) then
             local chat_id = msg.to.id
             local chat_type = msg.to.type
             if msg.reply_id then
                 get_message(msg.reply_id, chat_kick, false)
                 return
             end
-            if matches[1] == 'kick' and is_sudo(msg) then
+            if matches[1] == 'حذف کاربر' and is_sudo(msg) then
                 local member = string.gsub(matches[2], '@', '')
                 resolve_username(member, kick_by_username, {chat_id=chat_id, member=member, chat_type=chat_type})
                 return
@@ -159,14 +159,14 @@ if matches[1] == 'kick' and is_sudo(msg) then
             end
         end
 
-   if matches[1] == 'inv' and is_sudo(msg) then
+   if matches[1] == 'دعوت' and is_sudo(msg) then
             local chat_id = msg.to.id
             local chat_type = msg.to.type
             if msg.reply_id then
                 get_message(msg.reply_id, add_by_reply, false)
                 return
             end
-   if matches[1] == 'inv' and is_sudo(msg) then
+   if matches[1] == 'دعوت' and is_sudo(msg) then
                 local member = string.gsub(matches[2], '@', '')
                 print(chat_id)
                 resolve_username(member, add_by_username, {chat_id=chat_id, member=member, chat_type=chat_type})
@@ -182,25 +182,25 @@ if matches[1] == 'kick' and is_sudo(msg) then
     end
 
 local chat = 'channel#id'..msg.to.id
-        if msg.to.type == 'channel' and matches[1] == 'setdes' and is_sudo(msg) then
+        if msg.to.type == 'channel' and matches[1] == 'تنظیم دسکریپشن' and is_sudo(msg) then
         local about = matches[2]
         channel_set_about(chat, about, ok_cb, false)
-        return 'Description has been setted'
+        return '🔶دسکریپشن ثبت شد🔷'
     end
 end
 
 return {
     patterns = {
-        '^[!/#](setname) (.*)$',
-        '^[!/#](link)$',
-        '^[!/#](tosuper)$',
-        '^[!/#](newlink)$',
-        '^[!/#](setlink) (.*)$',
-        '^[!/#](setdes) (.*)$',
-        "^[!/#](kick)$",
-        "^[!/#](kick) (.*)$",
-        "^[!/#](inv)$",
-        "^[!/#](inv) (.*)$",
+        '(تنظیم نام) (.*)$',
+        '(لینک)$',
+        '(تبدیل به سوپر گروه)$',
+        '(لینک جدید)$',
+        '(تنظیم لینک) (.*)$',
+        '(تنظیم دسکریپشن) (.*)$',
+        "(حذف کاربر)$",
+        "(حذف کاربر) (.*)$",
+        "(دعوت)$",
+        "(دعوت) (.*)$",
     },
     run = run
 }
