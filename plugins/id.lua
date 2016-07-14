@@ -55,18 +55,18 @@ local function run(msg, matches)
     local receiver = get_receiver(msg)
     local chat = msg.to.id
     -- Id of the user and info about group / channel
-    if matches[1] == 'gpid' then
+    if matches[1] == 'ایدی گروه' then
          if not is_sudo(msg) then 
             return nil
             end
 
             if msg.to.type == 'channel' then
-                send_msg(msg.to.peer_id, 'SuperGroup ID: '..msg.to.id, ok_cb, false)
+                send_msg(msg.to.peer_id, 'ایدی سوپر گروه : '..msg.to.id, ok_cb, false)
             elseif msg.to.type == 'chat' then
-                send_msg(msg.to.peer_id, 'Group ID: '..msg.to.id, ok_cb, false)
+                send_msg(msg.to.peer_id, 'ایدی گروه '..msg.to.id, ok_cb, false)
             end
         end
-if matches[1] == 'id' then
+if matches[1] == 'ایدی' then
      if not is_sudo(msg) then 
             return nil
             end
@@ -76,7 +76,7 @@ if matches[1] == 'id' then
                 get_message(msg.reply_id, get_id_who, {receiver=get_receiver(msg)})
                 return
             end
-    if matches[1] == 'id' and matches[2] == '@[%a%d]' and is_sudo(msg) then
+    if matches[1] == 'ایدی' and matches[2] == '@[%a%d]' and is_sudo(msg) then
                 print(1)
                 user_info('user#id'..matches[2], whoisid, {chat_type=chat_type, chat_id=chat_id, user_id=matches[2]})
                 return
@@ -92,9 +92,9 @@ if matches[1] == 'id' then
 
 return {
   patterns = {
-    "^[!/#](id)$",
-    "^[!/#](gpid)$",
-    "^[!/#](id) (.*)$"
+    "(ایدی)$",
+    "(ایدی گروه)$",
+    "(ایدی) (.*)$"
   },
   run = run
 }
