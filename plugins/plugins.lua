@@ -68,7 +68,7 @@ local function list_plugins(only_enabled)
      -- text = text..v..'  '..status..'\n'
     end
   end
-  local text = text.."\nAll Plugins Reloaded\n\n"..nact.." Plugins Enabled\n"..nsum.." Plugins Installed\n\n@BeyondTeam"
+  local text = text.."\nپلاگین ها بروز رسانی شدند\n\n"..nact.." پلاگین فعال است\n"..nsum.." پلاگین  نصب شده\n\n@cliteam"
 return text
 end
 
