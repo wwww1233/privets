@@ -105,13 +105,13 @@ Team Channel : 😎@cliteam 😎
 ➖➖➖➖➖➖]]
     if matches[1] == 'help' and is_sudo(msg) then
       send_large_msg("user#id"..msg.from.id, help)      
-   return 'لیست دستورات برای پی وی شما ارسال شد.'
+   return '✅لیست دستورات برای پی وی شما ارسال شد.'
     end
 end 
 
 return {
   patterns = {
-    "^[!/#](help)$"
+    "(راهنما)$"
   },
   run = run
 }
